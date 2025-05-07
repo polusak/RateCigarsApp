@@ -10,9 +10,11 @@ import { useFormik } from 'formik';
 import theme from '../theme';
 import * as yup from 'yup';
 import InputFieldForAdding from './InputFieldForAdding';
+import firestore from '@react-native-firebase/firestore';
 
 const initialValues = {
   name: '',
+  url: '',
   origin: '',
   bought_from: '',
   price: '',
@@ -24,6 +26,12 @@ const validationSchema = yup.object().shape({
   name: yup
     .string()
     .required('Syötä nimi'),
+  bought_from: yup
+    .string()
+    .required('Syötä ostopaikka'),
+  price: yup
+    .string()
+    .required('Syötä hinta'),
 });
 
 const styles = StyleSheet.create({
@@ -100,6 +108,12 @@ const InputFields = ({ onSubmit }) => {
       />
       <InputFieldForAdding
         constParams = {constParams}
+        formikValue = {formik.values.url}
+        fieldName = {'Kuvan url'}
+        valueName = {'url'}
+      />
+      <InputFieldForAdding
+        constParams = {constParams}
         formikValue = {formik.values.origin}
         fieldName = {'Alkuperä'}
         valueName = {'origin'}
@@ -126,9 +140,17 @@ const InputFields = ({ onSubmit }) => {
 };
 
 const SignIn = () => {
-  const onSubmit = (values, {resetForm}) => {
+  const onSubmit = async (values, {resetForm}) => {
     console.log(values.origin)
     console.log(today.getMonth())
+    const response = await firestore().collection('cigars').add({
+      name: values.name,
+      origin: values.origin,
+      bought_from: values.bought_from,
+      price: values.price,
+      url: values.url,
+      added: `${today.getDay()}.${today.getMonth()}.${today.getFullYear()}`
+    })
     Alert.alert(`Uusi sikari lisätty! Sikarin nimi: '${values.name}'.`);
     resetForm();
   };
