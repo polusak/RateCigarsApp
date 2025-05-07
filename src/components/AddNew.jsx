@@ -1,13 +1,25 @@
-import { TextInput, Pressable, View, StyleSheet, Text, Alert } from 'react-native';
+import {
+  Pressable,
+  View,
+  StyleSheet,
+  Text,
+  Alert,
+  Dimensions,
+ } from 'react-native';
 import { useFormik } from 'formik';
 import theme from '../theme';
 import * as yup from 'yup';
+import InputFieldForAdding from './InputFieldForAdding';
 
 const initialValues = {
   name: '',
+  origin: '',
+  bought_from: '',
+  price: '',
 };
 
-
+const screenWidth = Dimensions.get('window').width;
+const today = new Date();
 const validationSchema = yup.object().shape({
   name: yup
     .string()
@@ -54,6 +66,11 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     paddingLeft: 2,
   },
+  main: {
+    display: 'flex',
+    height: '100%',
+    width: screenWidth,
+  }
 });
 
 
@@ -65,23 +82,40 @@ const InputFields = ({ onSubmit }) => {
     onSubmit,
   });
 
+  const constParams = {
+    formik: formik,
+    inputBoxStyle: styles.inputBox,
+    inputStyle: styles.input,
+    errorStyle: styles.error,
+    secondaryColor: theme.colors.secondary,
+  }
+
   return (
-    <View>
-      <View style = {styles.inputBox}>
-        <TextInput
-          placeholder = "Nimi"
-          value = {formik.values.name}
-          onChangeText = {formik.handleChange('name')}
-          style = {[styles.input,
-            {borderColor: formik.errors.name ? '#d73a4a' : theme.colors.secondary},
-          ]}
-
-        />
-        {formik.touched.name && formik.errors.name && (
-          <Text style={ styles.error }>{formik.errors.name}</Text>
-        )}
-      </View>
-
+    <View style = {styles.main}>
+      <InputFieldForAdding
+        constParams = {constParams}
+        formikValue = {formik.values.name}
+        fieldName = {'Nimi'}
+        valueName = {'name'}
+      />
+      <InputFieldForAdding
+        constParams = {constParams}
+        formikValue = {formik.values.origin}
+        fieldName = {'Alkuperä'}
+        valueName = {'origin'}
+      />
+      <InputFieldForAdding
+        constParams = {constParams}
+        formikValue = {formik.values.bought_from}
+        fieldName = {'Ostopaikka'}
+        valueName = {'bought_from'}
+      />
+      <InputFieldForAdding
+        constParams = {constParams}
+        formikValue = {formik.values.price}
+        fieldName = {'Hinta'}
+        valueName = {'price'}
+      />
       <View style = {styles.flexContainer}>
         <Pressable onPress={formik.handleSubmit}>
           <Text style = {styles.text}>Lisää sikari</Text>
@@ -92,9 +126,11 @@ const InputFields = ({ onSubmit }) => {
 };
 
 const SignIn = () => {
-  const onSubmit = (values) => {
-    console.log(values.name)
-    Alert.alert(`User created successfully! The username is '${values.name}'`);
+  const onSubmit = (values, {resetForm}) => {
+    console.log(values.origin)
+    console.log(today.getMonth())
+    Alert.alert(`Uusi sikari lisätty! Sikarin nimi: '${values.name}'.`);
+    resetForm();
   };
   return (
     <InputFields onSubmit={onSubmit} />
