@@ -1,4 +1,4 @@
-import { Text, FlatList, View, StyleSheet, Dimensions } from 'react-native';
+import { Text, FlatList, View, StyleSheet, Dimensions, Alert } from 'react-native';
 import CigarItem from './CigarItem';
 import theme from '../theme';
 import firestore from '@react-native-firebase/firestore';
@@ -40,7 +40,11 @@ const CigarList = () => {
       const fetchedCigars = await getCigars();
       setCigarsRawList([].concat(fetchedCigars));
     };
-    cigarsList();
+    try {
+      cigarsList();
+    } catch (error) {
+      Alert.alert('Sikarilistan lataaminen epäonnistui.');
+    }
   }, []);
 
   useEffect(() => {

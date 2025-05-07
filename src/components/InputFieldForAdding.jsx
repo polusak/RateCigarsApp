@@ -26,7 +26,7 @@ const InputFieldForAdding = (params) => {
           <Text style={ errorStyle }>{formik.errors.name}</Text>
         )}
     </View>
-  )
-}
+  );
+};
 
 export default InputFieldForAdding;

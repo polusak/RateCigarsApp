@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     height: '100%',
     width: screenWidth,
-  }
+  },
 });
 
 
@@ -96,7 +96,7 @@ const InputFields = ({ onSubmit }) => {
     inputStyle: styles.input,
     errorStyle: styles.error,
     secondaryColor: theme.colors.secondary,
-  }
+  };
 
   return (
     <View style = {styles.main}>
@@ -141,22 +141,25 @@ const InputFields = ({ onSubmit }) => {
 
 const SignIn = () => {
   const onSubmit = async (values, {resetForm}) => {
-    console.log(values.origin)
-    console.log(today.getMonth())
-    const response = await firestore().collection('cigars').add({
-      name: values.name,
-      origin: values.origin,
-      bought_from: values.bought_from,
-      price: values.price,
-      url: values.url,
-      added: `${today.getDay()}.${today.getMonth()}.${today.getFullYear()}`
-    })
-    Alert.alert(`Uusi sikari lisätty! Sikarin nimi: '${values.name}'.`);
+    try {
+      await firestore().collection('cigars').add({
+        name: values.name,
+        origin: values.origin,
+        bought_from: values.bought_from,
+        price: values.price,
+        url: values.url,
+        added: `${today.getDay()}.${today.getMonth()}.${today.getFullYear()}`,
+      });
+      Alert.alert(`Uusi sikari lisätty! Sikarin nimi: '${values.name}'.`);
+    } catch (error) {
+      Alert.alert('Uuden sikarin lisääminen epäonnistui.');
+      console.log(error)
+    }
     resetForm();
   };
   return (
     <InputFields onSubmit={onSubmit} />
-  )
-}
+  );
+};
 
 export default SignIn;

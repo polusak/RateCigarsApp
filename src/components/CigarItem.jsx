@@ -70,6 +70,14 @@ const styles = StyleSheet.create({
   },
 });
 
+const checkImageValidity = (url) => {
+  const a = url;
+  const b = ['jpeg','jpg','png'];
+  const c = a.split('.');
+
+  return(b.includes(c[c.length - 1]));
+};
+
 const ItemSeparator = () => <View style={styles.separator} />;
 
 const CigarItem = ({item}) => {
@@ -100,7 +108,9 @@ const CigarItem = ({item}) => {
       <View style={styles.flexContainerColumn}>
         {(item.url !== '' &&
           item.url !== undefined &&
-          item.url !== null) && <View style={styles.flexContainerImage }>
+          item.url !== null &&
+          checkImageValidity(item.url)
+          ) && <View style={styles.flexContainerImage }>
           <Pressable
             onPress={handleImagePress}
           >
@@ -114,12 +124,15 @@ const CigarItem = ({item}) => {
           >{'Nimi: '}</Text>
           <Text style={styles.text}>{`${item.name}`}</Text>
         </View>
-        <View style={styles.flexContainerRow}>
-          <Text
-            style={styles.boldText}
-          >{'Alkuperä: '}</Text>
-          <Text style={styles.text}>{`${item.origin}`}</Text>
-        </View>
+        {(item.origin !== '' &&
+          item.origin !== undefined &&
+          item.origin !== null
+          ) && <View style={styles.flexContainerRow }>
+            <Text
+              style={styles.boldText}
+            >{'Alkuperä: '}</Text>
+            <Text style={styles.text}>{`${item.origin}`}</Text>
+        </View>}
         <View style={styles.flexContainerRow}>
           <Text
             style={styles.boldText}
