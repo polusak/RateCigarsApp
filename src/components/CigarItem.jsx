@@ -5,7 +5,8 @@ import {
   Image,
   Pressable,
   Text,
-  Dimensions} from 'react-native';
+  Dimensions,
+  Alert} from 'react-native';
 import { useState } from 'react';
 import ReviewItem from './ReviewItem';
 import theme from '../theme';
@@ -22,6 +23,12 @@ const styles = StyleSheet.create({
     width: screenWidth,
     display: 'flex',
     flexDirection: 'row',
+  },
+  flexContainerLastRow: {
+    width: screenWidth,
+    display: 'flex',
+    flexDirection: 'row',
+    paddingBottom: 5,
   },
   flexContainerColumn: {
     width: screenWidth,
@@ -49,6 +56,17 @@ const styles = StyleSheet.create({
   },
   text: {
     color: theme.colors.textPrimary,
+    fontSize: theme.fontSizes.subheading
+  },
+  deleteButton: {
+    color: theme.colors.textPrimary,
+    borderWidth: 2,
+    borderColor: theme.colors.secondary,
+    borderRadius: 5,
+    paddingLeft: 5,
+    paddingBottom: 5,
+    paddingTop: 5,
+    paddingRight: 5,
   },
   boldText: {
     fontSize: theme.fontSizes.subheading,
@@ -90,6 +108,14 @@ const CigarItem = ({item}) => {
     setfullScreen(false);
   };
 
+  const handleDelete = (item) => {
+    try {
+
+    } catch (error) {
+      Alert.alert('Sikarin poistaminen epäonnistui.');
+      console.log(error);
+    }
+  };
 
   if (fullScreen) {
     return (
@@ -145,12 +171,6 @@ const CigarItem = ({item}) => {
           >{'Hinta: '}</Text>
           <Text style={styles.text}>{`${item.price}€`}</Text>
         </View>
-        <View style={styles.flexContainerRow}>
-          <Text
-            style={styles.boldText}
-          >{'Lisätty '}</Text>
-          <Text style={styles.text}>{`${item.added}`}</Text>
-        </View>
         <View>
           {(item.rating !== null &&
             item.rating !== undefined ) &&
@@ -159,7 +179,13 @@ const CigarItem = ({item}) => {
               style={styles.boldText}
             >{'Tähdet: '}</Text>
             <Text style={styles.text}>{`${item.rating}`}</Text>
-          </View>}
+        </View>}
+        </View>
+        <View style={styles.flexContainerLastRow}>
+          <Text
+            style={styles.boldText}
+          >{'Lisätty '}</Text>
+          <Text style={styles.text}>{`${item.added}`}</Text>
         </View>
         <View>
           {(
@@ -178,7 +204,10 @@ const CigarItem = ({item}) => {
                 style={{ paddingBottom: 10, height: screenHeight }}
               />
             </View>}
-          </View>
+        </View>
+          <Pressable onPress={() => handleDelete(item)}>
+            <Text style = {styles.deleteButton}>Poista sikari</Text>
+          </Pressable>
       </View>
           </Text>
   );

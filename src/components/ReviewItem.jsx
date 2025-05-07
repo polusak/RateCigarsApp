@@ -15,6 +15,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingLeft: 10,
   },
+  flexContainerLastRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingLeft: 10,
+    padingBottom: 10,
+  },
   flexContainerColumn: {
     display: 'flex',
     flexDirection: 'column',
@@ -92,7 +98,7 @@ const ReviewItem = ({item}) => {
         {( item.review !== null && item.review !== undefined && item.review !== '' ) &&
         <View style={styles.flexContainerReview}>
           <Pressable onPress={handleReviewPress}>
-            <Text style={styles.boldText2}>{'Arvostelu'}</Text>
+            <Text style={styles.boldText2}>{'Arvostelut'}</Text>
           </Pressable>
         </View>}
         <View style={styles.flexContainerRow}>
@@ -105,7 +111,7 @@ const ReviewItem = ({item}) => {
         </View>
         {( item.stars !== null &&
         item.stars !== undefined ) &&
-        <View style={styles.flexContainerRow}>
+        <View style={styles.flexContainerLastRow}>
           <Text style={styles.boldText}>{'Tähdet: '}</Text>
           <Text style={styles.text}>{`${item.stars}`}</Text>
         </View>}

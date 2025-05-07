@@ -153,7 +153,7 @@ const SignIn = () => {
       Alert.alert(`Uusi sikari lisätty! Sikarin nimi: '${values.name}'.`);
     } catch (error) {
       Alert.alert('Uuden sikarin lisääminen epäonnistui.');
-      console.log(error)
+      console.log(error);
     }
     resetForm();
   };

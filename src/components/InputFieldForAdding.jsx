@@ -1,4 +1,5 @@
 import { TextInput, View, Text } from 'react-native';
+import theme from '../theme';
 
 const InputFieldForAdding = (params) => {
   const inputBoxStyle = params.constParams.inputBoxStyle;
@@ -15,6 +16,7 @@ const InputFieldForAdding = (params) => {
     <View style = {inputBoxStyle}>
         <TextInput
           placeholder = {`${fieldName}`}
+          placeholderTextColor = {theme.colors.placeholder}
           value = {formikValue}
           onChangeText = {formik.handleChange(`${valueName}`)}
           style = {[inputStyle,

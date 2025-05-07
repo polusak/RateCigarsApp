@@ -1,4 +1,10 @@
-import { Text, FlatList, View, StyleSheet, Dimensions, Alert } from 'react-native';
+import { Text,
+  FlatList,
+  View,
+  StyleSheet,
+  Dimensions,
+  Alert,
+} from 'react-native';
 import CigarItem from './CigarItem';
 import theme from '../theme';
 import firestore from '@react-native-firebase/firestore';
@@ -24,12 +30,12 @@ const styles = StyleSheet.create({
   },
   viewStyle: {
     display: 'flex',
-    height: '100%',
     width: screenWidth,
   },
 });
 
 const ItemSeparator = () => <View style={styles.separator} />;
+
 
 const CigarList = () => {
   const [cigarsRawList, setCigarsRawList] = useState([]);
@@ -57,15 +63,13 @@ const CigarList = () => {
   }, [cigarsRawList]);
 
   return (
-    <View style={styles.viewStyle}>
-      <Text style={styles.text}>
+    <View>
         <FlatList
           data={cigars}
           ItemSeparatorComponent={ItemSeparator}
-          renderItem={({ item }) => <CigarItem item={item}
-          style={{width: screenWidth}}/> }
+          renderItem={({ item }) => <CigarItem item={item}/> }
+          style={{display: 'flex'}}
         />
-      </Text>
     </View>
   );
 };

@@ -5,6 +5,7 @@ const theme = {
     primary: '#47331f',
     secondary: '#2c1a07',
     tertiary: '#ac9074',
+    placeholder: '#A9A9A9',
   },
   fontSizes: {
     body: 14,
